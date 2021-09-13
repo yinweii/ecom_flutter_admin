@@ -1,13 +1,16 @@
 import 'package:ecom_admin/provider/authprovider.dart';
 import 'package:ecom_admin/provider/orders.dart';
+import 'package:ecom_admin/provider/products.dart';
 import 'package:ecom_admin/screen/authscreen/login.dart';
 import 'package:ecom_admin/screen/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:min_id/min_id.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
+  MinId.withPattern('htp{2{d}}{1{w}}{3{w}}{1{d}}{3{w}}{3{w}}{d}{w}');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -24,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Orders(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
         ),
         StreamProvider<User>.value(
             value: AuthProvider().users, initialData: null)

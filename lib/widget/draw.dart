@@ -1,4 +1,7 @@
 import 'package:ecom_admin/provider/authprovider.dart';
+import 'package:ecom_admin/screen/home.dart';
+import 'package:ecom_admin/screen/menuview.dart';
+import 'package:ecom_admin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,22 +11,37 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Name'),
-            onTap: () {},
+          Container(
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.blue[200],
+                    radius: 40,
+                  ),
+                  Text('Phong Goodboizz')
+                ],
+              ),
+            ),
           ),
           Divider(height: 6, thickness: 6),
           ListTile(
             leading: Icon(Icons.shopping_bag),
             title: Text('All Order'),
-            onTap: () {},
+            onTap: () {
+              Utils.navigateReplace(context, Home());
+            },
           ),
           Divider(height: 6, thickness: 6),
           ListTile(
             leading: Icon(Icons.card_travel),
             title: Text('Menu'),
-            onTap: () {},
+            onTap: () {
+              Utils.navigateReplace(context, MenuView());
+            },
           ),
           Divider(height: 6, thickness: 6),
           ListTile(

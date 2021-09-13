@@ -1,7 +1,7 @@
 import 'package:ecom_admin/models/cartitem.dart';
 import 'package:ecom_admin/models/order.dart';
 import 'package:ecom_admin/provider/orders.dart';
-import 'package:ecom_admin/screen/detailorder.dart';
+import 'package:ecom_admin/screen/detailorder_view.dart';
 import 'package:ecom_admin/utils/global.dart';
 import 'package:ecom_admin/utils/logger.dart';
 import 'package:ecom_admin/utils/utils.dart';
@@ -42,12 +42,11 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
     String text =
         'This is possible since .signInWithEmailAndPassword correctly throws Errors with defined codes, that we can grab to identify the error and handle things in the way the should be handled.';
 
-    // final day = DateFormat('EEE,dd').format(widget.order.orderTime);
-    // final hour = DateFormat('hh:mm a').format(widget.order.orderTime);
     return Container(
       height: hight * 0.5,
       width: wight,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +84,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
           ),
           SizedBox(height: 10),
           Container(
-            height: 210,
+            height: widget.order.cartItem.length > 2 ? 210 : 100,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(

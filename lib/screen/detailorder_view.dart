@@ -35,7 +35,17 @@ class _DetailOrderState extends State<DetailOrder> {
   Widget build(BuildContext context) {
     final devLog = logger;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Utils.navigatePop(context);
+          },
+          icon: Icon(Icons.keyboard_backspace),
+        ),
+        title: Text('Detail'),
+        centerTitle: true,
+        elevation: 5,
+      ),
       body: SingleChildScrollView(
         child: Container(
           //width: MediaQuery.of(context).size.width,
@@ -104,7 +114,7 @@ class _DetailOrderState extends State<DetailOrder> {
                 color: Colors.grey,
               ),
               Container(
-                height: 210,
+                height: widget.order.cartItem.length > 2 ? 210 : 100,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
@@ -117,6 +127,7 @@ class _DetailOrderState extends State<DetailOrder> {
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ButtomWidget(
                       onPress: () {
@@ -126,13 +137,72 @@ class _DetailOrderState extends State<DetailOrder> {
                       textColor: Colors.white,
                       text: 'Print Ivoice',
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildRow('Tổng: ', '${widget.order.total}'),
+                          SizedBox(height: 5),
+                          buildRow('Giảm giá: ', 'n/a'),
+                          SizedBox(height: 5),
+                          buildRow('Phải trả: ', '${widget.order.total}'),
+                        ],
+                      ),
+                    )
                   ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ButtomWidget(
+                        onPress: () {
+                          print('Print');
+                        },
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        text: 'Hủy đơn',
+                      ),
+                      ButtomWidget(
+                        onPress: () {
+                          print('Xác Nhận');
+                        },
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        text: 'Xác Nhận',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  buildRow(String lable, String number) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          lable,
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          number,
+          style: TextStyle(fontSize: 18),
+        ),
+      ],
     );
   }
 

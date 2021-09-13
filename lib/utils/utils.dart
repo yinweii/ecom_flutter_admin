@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class Utils {
   static void showToast(String message, {bool isLong: false}) {
@@ -13,10 +15,15 @@ class Utils {
 
   static Future navigatePage(BuildContext context, Widget widget,
       {bool rootNavigator: false}) async {
-    return Navigator.of(context, rootNavigator: rootNavigator)
-        .push(MaterialPageRoute(
-      builder: (context) => widget,
-    ));
+    return Navigator.of(context, rootNavigator: rootNavigator).push(
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+    );
+  }
+
+  static Future navigatePop(BuildContext context) async {
+    return Navigator.of(context).pop();
   }
 
   //validate email
@@ -87,4 +94,9 @@ class Utils {
   static String dayData(DateTime dateTime) {
     return DateFormat('EEE,dd').format(dateTime);
   }
+
+  static double sizeHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
+  static double sizeWidth(BuildContext context) =>
+      MediaQuery.of(context).size.width;
 }

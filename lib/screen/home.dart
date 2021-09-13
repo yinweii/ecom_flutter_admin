@@ -1,5 +1,5 @@
-import 'package:ecom_admin/screen/neworder.dart';
-import 'package:ecom_admin/screen/passorder.dart';
+import 'package:ecom_admin/screen/neworder_view.dart';
+import 'package:ecom_admin/screen/passorder_view.dart';
 import 'package:ecom_admin/widget/draw.dart';
 import 'package:flutter/material.dart';
 
