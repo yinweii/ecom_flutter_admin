@@ -49,6 +49,7 @@ class _DetailOrderState extends State<DetailOrder> {
       body: SingleChildScrollView(
         child: Container(
           //width: MediaQuery.of(context).size.width,
+          // height: Utils.sizeHeight(context) * 3 / 5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,7 +74,7 @@ class _DetailOrderState extends State<DetailOrder> {
                               Text(context.watch<Orders>().username),
                               Text(''),
                               Text(
-                                  '${Utils.dayData(widget.order.orderTime)} at ${Utils.hourData(widget.order.orderTime)}',
+                                  '${Utils.dayData(widget.order.datetime)} at ${Utils.hourData(widget.order.datetime)}',
                                   style: TextStyle(fontSize: 12)),
                             ],
                           ),
@@ -123,65 +124,73 @@ class _DetailOrderState extends State<DetailOrder> {
                   ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        width: Utils.sizeWidth(context),
+        height: Utils.sizeHeight(context) * 1 / 7,
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ButtomWidget(
+                    onPress: () {
+                      print('Print');
+                    },
+                    backgroundColor: Colors.red[200],
+                    textColor: Colors.white,
+                    text: 'Print Ivoice',
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildRow('Tổng: ', '${widget.order.total}'),
+                        buildRow('Giảm giá: ', 'n/a'),
+                        buildRow('Phải trả: ', '${widget.order.total}'),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ButtomWidget(
                       onPress: () {
                         print('Print');
                       },
-                      backgroundColor: Colors.red[200],
+                      backgroundColor: Colors.red,
                       textColor: Colors.white,
-                      text: 'Print Ivoice',
+                      text: 'Hủy đơn',
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildRow('Tổng: ', '${widget.order.total}'),
-                          SizedBox(height: 5),
-                          buildRow('Giảm giá: ', 'n/a'),
-                          SizedBox(height: 5),
-                          buildRow('Phải trả: ', '${widget.order.total}'),
-                        ],
-                      ),
-                    )
+                    ButtomWidget(
+                      onPress: () {
+                        print('Xác Nhận');
+                      },
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      text: 'Xác Nhận',
+                    ),
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ButtomWidget(
-                        onPress: () {
-                          print('Print');
-                        },
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        text: 'Hủy đơn',
-                      ),
-                      ButtomWidget(
-                        onPress: () {
-                          print('Xác Nhận');
-                        },
-                        backgroundColor: Colors.green,
-                        textColor: Colors.white,
-                        text: 'Xác Nhận',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

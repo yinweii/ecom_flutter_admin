@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom_admin/models/product.dart';
 import 'package:ecom_admin/provider/products.dart';
+import 'package:ecom_admin/screen/addscreen.dart';
 import 'package:ecom_admin/screen/editscreen.dart';
 import 'package:ecom_admin/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ItemBuild extends StatelessWidget {
-  final int id;
-  const ItemBuild({Key key, this.id}) : super(key: key);
+  const ItemBuild({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +58,8 @@ class ItemBuild extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (ctx) => EditScreen(),
-                          settings: RouteSettings(arguments: id),
-                        ),
+                            builder: (ctx) => EditScreen(),
+                            settings: RouteSettings(arguments: product.proId)),
                       );
                     },
                     icon: Icon(Icons.edit),

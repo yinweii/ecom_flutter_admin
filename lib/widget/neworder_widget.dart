@@ -3,19 +3,19 @@ import 'package:ecom_admin/models/order.dart';
 import 'package:ecom_admin/provider/orders.dart';
 import 'package:ecom_admin/screen/detailorder_view.dart';
 import 'package:ecom_admin/utils/global.dart';
-import 'package:ecom_admin/utils/logger.dart';
+
 import 'package:ecom_admin/utils/utils.dart';
 import 'package:ecom_admin/widget/buttom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:provider/provider.dart';
 
 class NewOrderWidget extends StatefulWidget {
   final OrderItem order;
-
   final String id;
+  final int typeOrder;
 
-  const NewOrderWidget({this.id, this.order});
+  const NewOrderWidget({this.id, this.order, this.typeOrder});
 
   @override
   _NewOrderWidgetState createState() => _NewOrderWidgetState();
@@ -32,18 +32,18 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
     super.initState();
     getUserById();
   }
+
   // WidgetsBinding.instance.addPostFrameCallback((_) => );
 
   @override
   Widget build(BuildContext context) {
     final hight = MediaQuery.of(context).size.height;
-
     final wight = MediaQuery.of(context).size.width;
     String text =
         'This is possible since .signInWithEmailAndPassword correctly throws Errors with defined codes, that we can grab to identify the error and handle things in the way the should be handled.';
 
     return Container(
-      height: hight * 0.5,
+      height: widget.order.cartItem.length > 2 ? hight * 0.5 : hight * 2 / 5,
       width: wight,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -66,7 +66,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
                         //Text(context.watch<Orders>().username),
                         Text(Utils.changeText(widget.order.orderBy, 5, '...')),
                         Text(
-                            '${Utils.dayData(widget.order.orderTime)} at ${Utils.hourData(widget.order.orderTime)}',
+                            '${Utils.dayData(widget.order.datetime)} at ${Utils.hourData(widget.order.datetime)}',
                             style: TextStyle(fontSize: 12)),
                       ],
                     ),
@@ -84,7 +84,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
           ),
           SizedBox(height: 10),
           Container(
-            height: widget.order.cartItem.length > 2 ? 210 : 100,
+            height: widget.order.cartItem.length > 2 ? 210 : 150,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
@@ -123,20 +123,33 @@ class _NewOrderWidgetState extends State<NewOrderWidget> {
                   backgroundColor: Colors.orange[300],
                   textColor: Colors.orange[300],
                   text: 'Details'),
-              ButtomWidget(
-                  onPress: () {
-                    print('Cancel...');
-                  },
-                  backgroundColor: Colors.red[300],
-                  textColor: Colors.white,
-                  text: 'Cancel Orders'),
-              ButtomWidget(
-                  onPress: () {
-                    print('Accept...');
-                  },
-                  backgroundColor: Colors.red[300],
-                  textColor: Colors.white,
-                  text: 'Accept'),
+              Visibility(
+                visible: widget.typeOrder == 0 ? true : false,
+                child: ButtomWidget(
+                    onPress: () {
+                      context
+                          .read<Orders>()
+                          .updateOrder(widget.order.id, Global.cancel_order);
+
+                      print('Cancel...');
+                    },
+                    backgroundColor: Colors.red[300],
+                    textColor: Colors.white,
+                    text: 'Cancel'),
+              ),
+              Visibility(
+                visible: widget.typeOrder == 1 ? false : true,
+                child: ButtomWidget(
+                    onPress: () {
+                      context
+                          .read<Orders>()
+                          .updateOrder(widget.order.id, Global.accept_order);
+                      print('Accept...');
+                    },
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    text: 'Accept'),
+              ),
             ],
           ),
           Divider(thickness: 1, color: Colors.blue),

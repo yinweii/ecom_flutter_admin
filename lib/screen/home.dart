@@ -1,3 +1,4 @@
+import 'package:ecom_admin/screen/cancel_view.dart';
 import 'package:ecom_admin/screen/neworder_view.dart';
 import 'package:ecom_admin/screen/passorder_view.dart';
 import 'package:ecom_admin/widget/draw.dart';
@@ -14,7 +15,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 2, vsync: this);
+    controller = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -26,19 +27,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(
-            controller: controller,
-            tabs: <Tab>[
-              Tab(child: Text('New Orders')),
-              Tab(child: Text('Past Orders')),
-            ],
-          ),
+      appBar: AppBar(
+        bottom: TabBar(
+          controller: controller,
+          tabs: <Tab>[
+            Tab(child: Text('Đơn hàng mới')),
+            Tab(child: Text('Đã xác nhận')),
+            Tab(child: Text('Hủy')),
+          ],
         ),
-        drawer: MyDrawer(),
-        body: TabBarView(controller: controller, children: <Widget>[
+      ),
+      drawer: MyDrawer(),
+      body: TabBarView(
+        controller: controller,
+        children: <Widget>[
           NewOrder(),
           PastOrder(),
-        ]));
+          CancelView(),
+        ],
+      ),
+    );
   }
 }

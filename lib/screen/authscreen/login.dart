@@ -41,6 +41,10 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              CircleAvatar(
+                backgroundImage: AssetImage('assets/images/adminlogin.png'),
+                radius: 70,
+              ),
               CustomTextField(
                   controller: _emailEdtController,
                   data: Icons.lock,
@@ -52,25 +56,40 @@ class _LoginState extends State<Login> {
                   hintText: 'password',
                   isObsecure: true),
               SizedBox(height: 20),
-              RaisedButton(
-                onPressed: () async {
-                  _saveForm(context);
-                  if (loginAuth.errorMessage != null) {
-                    Utils.showToast(
-                        Utils.errorText(loginAuth.errorMessage) != null
-                            ? Utils.errorText(loginAuth.errorMessage)
-                            : loginAuth.errorMessage);
-                  }
-                },
-                color: Colors.red[200],
-                child: context.read<AuthProvider>().isLoading
-                    ? Container(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator())
-                    : Text(
-                        'LOGIN',
-                      ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    _saveForm(context);
+                    if (loginAuth.errorMessage != null) {
+                      Utils.showToast(
+                          Utils.errorText(loginAuth.errorMessage) != null
+                              ? Utils.errorText(loginAuth.errorMessage)
+                              : loginAuth.errorMessage);
+                    }
+                  },
+                  child: Container(
+                    width: Utils.sizeHeight(context),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFF717B),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: context.read<AuthProvider>().isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.grey,
+                            )
+                          : Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

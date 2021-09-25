@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom_admin/models/address.dart';
 import 'package:ecom_admin/models/order.dart';
+import 'package:ecom_admin/models/product.dart';
 import 'package:ecom_admin/models/usermodel.dart';
 import 'package:ecom_admin/utils/logger.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,10 @@ class Orders with ChangeNotifier {
   List<OrderItem> get orders {
     return [..._orders];
   }
+
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
 
   AddressModel _addressModel;
   AddressModel get addressModel => _addressModel;
@@ -54,20 +59,47 @@ class Orders with ChangeNotifier {
     return checkUser() ? _userOrder.email : 'n/a';
   }
 
+  Future<void> onRefesh(String stutus) async {
+    return fetchOrderUser(stutus);
+  }
+
   QuerySnapshot snapshot;
   // get order
-  Future<void> fetchOrderUser() async {
-    try {
-      snapshot = await FirebaseFirestore.instance.collection('orders').get();
+  Future<void> fetchOrderUser(String stutus) async {
+    setIsLoading(true);
+    snapshot = await FirebaseFirestore.instance
+        .collection('userorders')
+        .where('orderStatus', isEqualTo: stutus)
+        .get();
+    List<OrderItem> loadData = [];
+    snapshot.docs.forEach((document) {
+      loadData.add(OrderItem.fromJson(document.data()));
+    });
+    _orders = loadData;
+    setIsLoading(false);
+    notifyListeners();
+  }
 
-      List<OrderItem> loadData = [];
-      snapshot.docs.forEach((document) {
-        loadData.add(OrderItem.fromJson(document.data()));
-      });
-      _orders = loadData;
-      devLog.i(_orders.length);
+  Future<void> updateOrder(String idOrder, String statusOrder) async {
+    try {
+      setIsLoading(true);
+      snapshot = await FirebaseFirestore.instance
+          .collection('userorders')
+          .doc(idOrder)
+          .update({
+        'orderStatus': statusOrder,
+      }).then((_) {
+        print('UPDATE SUCCESS');
+        setIsLoading(false);
+      }).catchError(
+        (error) => print(
+          error.toString(),
+        ),
+      );
+
       notifyListeners();
     } catch (e) {
+      setIsLoading(false);
       devLog.e(e.toString());
     }
   }
@@ -106,4 +138,11 @@ class Orders with ChangeNotifier {
       devLog.e(e.toString());
     }
   }
+
+  void setIsLoading(value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  Future<void> acceptOrder() async {}
 }

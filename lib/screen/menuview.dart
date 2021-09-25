@@ -1,4 +1,4 @@
-import 'package:ecom_admin/screen/editscreen.dart';
+import 'package:ecom_admin/screen/addscreen.dart';
 import 'package:ecom_admin/screen/menutab/drinktab.dart';
 import 'package:ecom_admin/screen/menutab/pizzatab.dart';
 import 'package:ecom_admin/screen/menutab/sandwich.dart';
@@ -36,7 +36,7 @@ class _MenuViewState extends State<MenuView>
           actions: [
             IconButton(
                 onPressed: () {
-                  Utils.navigatePage(context, EditScreen());
+                  Utils.navigatePage(context, AddScreen());
                 },
                 icon: Icon(Icons.add))
           ],

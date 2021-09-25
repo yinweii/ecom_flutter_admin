@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'cartitem.g.dart';
 
 @JsonSerializable()
@@ -18,6 +19,11 @@ class CartItem {
       @required this.quantity,
       @required this.price,
       @required this.discount});
+
+  @override
+  String toString() {
+    return 'CartItem{id: $id, title: $title, imageUrl: $imageUrl, quantity: $quantity, price: $price, discount: $discount}';
+  }
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>
       _$CartItemFromJson(json);

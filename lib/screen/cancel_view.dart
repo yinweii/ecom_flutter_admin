@@ -3,23 +3,22 @@ import 'package:ecom_admin/provider/orders.dart';
 import 'package:ecom_admin/utils/global.dart';
 import 'package:ecom_admin/utils/logger.dart';
 import 'package:ecom_admin/widget/neworder_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NewOrder extends StatefulWidget {
-  @override
-  _NewOrderState createState() => _NewOrderState();
-}
-
-class _NewOrderState extends State<NewOrder> {
+class CancelView extends StatefulWidget {
   final OrderItem order;
   final devLog = logger;
+  CancelView({Key key, this.order}) : super(key: key);
 
-  _NewOrderState({this.order});
+  @override
+  _CancelViewState createState() => _CancelViewState();
+}
+
+class _CancelViewState extends State<CancelView> {
   Future getOrder() async {
     return await Provider.of<Orders>(context, listen: false)
-        .fetchOrderUser(Global.in_process);
+        .fetchOrderUser(Global.cancel_order);
   }
 
   bool isLoading = false;
@@ -49,7 +48,7 @@ class _NewOrderState extends State<NewOrder> {
                     itemCount: ordersData.orders.length,
                     itemBuilder: (context, index) {
                       return NewOrderWidget(
-                        typeOrder: 0,
+                        typeOrder: 2,
                         order: ordersData.orders[index],
                       );
                     },

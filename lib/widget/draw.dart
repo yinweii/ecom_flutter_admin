@@ -1,4 +1,5 @@
 import 'package:ecom_admin/provider/authprovider.dart';
+import 'package:ecom_admin/screen/authscreen/login.dart';
 import 'package:ecom_admin/screen/home.dart';
 import 'package:ecom_admin/screen/menuview.dart';
 import 'package:ecom_admin/utils/utils.dart';
@@ -48,7 +49,10 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.logout),
               title: Text('LogOut'),
               onTap: () async {
-                await context.read<AuthProvider>().signOut();
+                await context
+                    .read<AuthProvider>()
+                    .signOut()
+                    .then((_) => Utils.navigateReplace(context, Login()));
               }),
           Divider(height: 6, thickness: 6),
         ],

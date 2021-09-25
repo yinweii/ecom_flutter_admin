@@ -12,9 +12,9 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) {
     addressId: json['addressId'] as String,
     orderBy: json['orderBy'] as String,
     total: (json['total'] as num)?.toDouble(),
-    orderTime: json['orderTime'] == null
+    datetime: json['datetime'] == null
         ? null
-        : DateTime.parse(json['orderTime'] as String),
+        : DateTime.parse(json['datetime'] as String),
     isSuccess: json['isSuccess'] as bool,
     cartItem: (json['cartItem'] as List)
         ?.map((e) =>
@@ -28,7 +28,7 @@ Map<String, dynamic> _$OrderItemToJson(OrderItem instance) => <String, dynamic>{
       'addressId': instance.addressId,
       'orderBy': instance.orderBy,
       'total': instance.total,
-      'orderTime': instance.orderTime?.toIso8601String(),
+      'orderTime': instance.datetime?.toIso8601String(),
       'isSuccess': instance.isSuccess,
       'cartItem': instance.cartItem,
     };

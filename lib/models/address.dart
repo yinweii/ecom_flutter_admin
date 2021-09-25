@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'address.g.dart';
 
 @JsonSerializable()
@@ -21,4 +22,8 @@ class AddressModel {
       final this.city});
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
+  @override
+  String toString() {
+    return 'AddressModel{addressId: $addressId, name: $name, phoneNumber: $phoneNumber, hamletNumber: $hamletNumber, commune: $commune, district: $district, city: $city}';
+  }
 }

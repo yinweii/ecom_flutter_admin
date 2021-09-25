@@ -62,6 +62,39 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
+  Future<void> updateProduct(String id, Product product) async {
+    var updateProduct = Product()
+        .copyWith(
+          type: product.type,
+          title: product.title,
+          shortInfo: product.shortInfo,
+          longDescription: product.longDescription,
+          price: product.price,
+          discount: product.discount,
+        )
+        .toJson();
+    try {
+      setIsLoading(true);
+      snapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(product.proId)
+          .update(updateProduct)
+          .then((_) {
+        print('UPDATE SUCCESS');
+        setIsLoading(false);
+      }).catchError(
+        (error) => print(
+          error.toString(),
+        ),
+      );
+
+      notifyListeners();
+    } catch (e) {
+      setIsLoading(false);
+      devLog.e(e.toString());
+    }
+  }
+
   Future<void> deleteProduct(String id) async {
     final existingProductIndex =
         _listProduct.indexWhere((prod) => prod.proId == id);
@@ -80,14 +113,8 @@ class ProductProvider with ChangeNotifier {
     return _listProduct.firstWhere((element) => element.proId == id);
   }
 
-  // void setIsLoading(value) {
-  //   _isLoading = value;
-  //   notifyListeners();
-  // }
-
-  // void setMessage(message) {
-  //   _errorMessage = message;
-  //   print(_errorMessage);
-  //   notifyListeners();
-  // }
+  void setIsLoading(value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 }
